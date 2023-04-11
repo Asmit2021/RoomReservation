@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "562211709346",
+    "project_id": "ssdcproject-98e02",
+    "storage_bucket": "ssdcproject-98e02.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562211709346:android:eba2d213c87e116da2d2fb",
+        "android_client_info": {
+          "package_name": "com.example.ssdcproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562211709346-olo138hf54p2adrjsbpbuf5tmi8h8f3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbltSUgeeO_a2_Y-kmg_fNiDPydjatIDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562211709346-olo138hf54p2adrjsbpbuf5tmi8h8f3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
