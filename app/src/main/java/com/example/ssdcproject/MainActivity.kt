@@ -7,11 +7,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.FirebaseDatabase
-import java.time.LocalDate
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var start:Date
     private lateinit var end:Date
     private lateinit var current:Date
+    private val update = FirebaseDatabase.getInstance().getReference("Pending Requests")
+    private var id:Int = 0
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +46,18 @@ class MainActivity : AppCompatActivity() {
         submitBtn?.setOnClickListener {
             onSubmit(it)
         }
+
+        update.get().addOnSuccessListener {
+            val tempId= it.child("pos").value
+            if (tempId!=null)
+            {
+                id = tempId.toString().toInt()
+
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this, "Operation failed", Toast.LENGTH_SHORT).show()
+        }
+
     }
     @RequiresApi(Build.VERSION_CODES.N)
     private fun clickDatePicker(tv:TextView?){
@@ -77,15 +91,29 @@ class MainActivity : AppCompatActivity() {
         val regNo=regNoEdit?.text.toString()
         val srtDate=startTv?.text.toString()
         val endDate=endTv?.text.toString()
-        val info=Info(pName,sName,regNo, srtDate , endDate )
-        val reff=FirebaseDatabase.getInstance().reference.child("Pending Request")
-        if ((end.year>=start.year)&&(end.day>=start.day)&&(end.month>=start.month)) {
-            reff.push().setValue(info)
-            Snackbar.make(btn,"Submitted. You will be contacted", Snackbar.LENGTH_SHORT).show()
+        val info=Info(pName,sName,regNo, srtDate , endDate, "Not Allotted")
+        val database = FirebaseDatabase.getInstance().reference
+
+
+        if(pName.isNotEmpty()&&sName.isNotEmpty()&&regNo.isNotEmpty()&&srtDate.isNotEmpty()&&endDate.isNotEmpty()) {
+            if ((end.year >= start.year) && (end.day >= start.day) && (end.month >= start.month)) {
+
+                id+=1
+                val count = mapOf<String,Int>(
+                            "pos" to id
+                )
+                update.updateChildren(count).addOnSuccessListener {
+                    //Toast.makeText(this, "updated $id", Toast.LENGTH_SHORT).show()
+                }
+                database.child(id.toString()).setValue(info).addOnSuccessListener {  }
+                Snackbar.make(btn, "Submitted. You will be contacted $id", Snackbar.LENGTH_SHORT).show()
+            } else {
+                Snackbar.make(btn, "Enter valid Date", Snackbar.LENGTH_SHORT).show()
+            }
+        }else {
+            Snackbar.make(btn, "Please enter all the details", Snackbar.LENGTH_SHORT).show()
         }
-        else{
-            Snackbar.make(btn,"Enter valid Date", Snackbar.LENGTH_SHORT).show()
-        }
+
     }
 
 

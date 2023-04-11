@@ -5,6 +5,7 @@ data class Info(
     var StudentsName:String,
     var RegistrationNo:String,
     var startDate:String,
-    var endDate:String
+    var endDate:String,
+    var room:String
 
 )
