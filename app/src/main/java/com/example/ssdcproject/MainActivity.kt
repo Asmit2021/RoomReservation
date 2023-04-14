@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                     //Toast.makeText(this, "updated $id", Toast.LENGTH_SHORT).show()
                 }
                 database.child(id.toString()).setValue(info).addOnSuccessListener {  }
-                Snackbar.make(btn, "Submitted. You will be contacted $id", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(btn, "Submitted. Your token id is $id", Snackbar.LENGTH_SHORT).show()
             } else {
                 Snackbar.make(btn, "Enter valid Date", Snackbar.LENGTH_SHORT).show()
             }
